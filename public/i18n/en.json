@@ -1,0 +1,132 @@
+{
+  "app": {
+    "title": "Management Panel",
+    "logout": "Log out",
+    "roles": "Roles",
+    "user": "User"
+  },
+  "lang": {
+    "es": "Spanish",
+    "en": "English"
+  },
+  "nav": {
+    "products": "Products",
+    "clients": "Clients",
+    "orders": "Orders",
+    "users": "Users",
+    "pickups": "Pickup Orders"
+  },
+  "common": {
+    "search": "Search",
+    "clear": "Clear",
+    "new": "New",
+    "edit": "Edit",
+    "delete": "Delete",
+    "approve": "Approve",
+    "assign": "Assign",
+    "start": "Start",
+    "close": "Close",
+    "cancel": "Cancel",
+    "create": "Create",
+    "save": "Save",
+    "yes": "Yes",
+    "no": "No",
+    "actions": "Actions",
+    "id": "ID",
+    "status": "Status",
+    "date": "Date",
+    "total": "Total",
+    "technician": "Technician",
+    "client": "Client",
+    "filters": {
+      "clientId": "Client ID",
+      "status": "Status"
+    },
+    "placeholders": {
+      "productName": "Product name"
+    },
+    "messages": {
+      "loading": "Loading...",
+      "noData": "No data"
+    }
+  },
+
+  "login": {
+    "title": "Sign in",
+    "subtitle": "Welcome to the management panel",
+    "email": "Email",
+    "password": "Password",
+    "enter": "Enter",
+    "invalid": "Invalid user or password",
+    "locked": "User locked. Contact the administrator.",
+    "tooMany": "Too many failed attempts. Your account may be locked.",
+    "haveAccount": "Don't have an account? Register here."
+  },
+
+  "register": {
+    "title": "User Registration",
+    "name": "Name",
+    "email": "Email",
+    "password": "Password",
+    "role": "Role",
+    "submit": "Register",
+    "cancel": "Cancel",
+    "success": "Registration successful. You can now log in.",
+    "goLogin": "Already have an account? Sign in here."
+  },
+
+  "products": {
+    "title": "Products",
+    "name": "Name",
+    "price": "Price",
+    "active": "Active",
+    "new": "New product",
+    "editTitle": "Edit product"
+  },
+
+  "clients": {
+    "title": "Clients",
+    "new": "New client",
+    "name": "Name"
+  },
+
+  "orders": {
+    "title": "Orders",
+    "new": "New order",
+    "client": "Client"
+  },
+
+  "users": {
+    "title": "Users",
+    "new": "New user",
+    "email": "Email",
+    "name": "Name",
+    "roles": "Roles"
+  },
+
+  "pickups": {
+    "title": "Pickup Orders",
+    "new": "New pickup",
+    "onlyMine": "Only my pickups",
+    "approveOk": "Pickup #{{id}} approved",
+    "assignOk": "Assigned to tech {{tech}}",
+    "startOk": "Pickup #{{id}} started",
+    "closeOk": "Pickup #{{id}} closed",
+    "errors": {
+      "approve": "Error approving",
+      "assign": "Error assigning",
+      "start": "Could not start",
+      "close": "Could not close"
+    },
+    "status": {
+      "CREATED": "Created",
+      "APPROVED": "Approved",
+      "ASSIGNED": "Assigned",
+      "IN_PROGRESS": "In progress",
+      "CLOSED": "Closed"
+    },
+    "columns": {
+      "requested": "Requested"
+    }
+  }
+}

@@ -1,0 +1,58 @@
+<div class="login-wrap">
+  <mat-card class="login-card">
+    <div class="brand">
+      <div class="brand">
+        <img src="managerrr.jpg" alt="Logo" class="logo" width="60" height="40">
+        <span>{{ 'app.title' | translate }}</span>
+      </div>
+      <h1>{{ 'register.title' | translate }}</h1>
+      <p class="subtitle">{{ 'register.subtitle' | translate }}</p>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="submit()" class="form">
+
+      <mat-form-field appearance="outline" class="field">
+        <mat-label>{{ 'register.name' | translate }}</mat-label>
+        <input matInput formControlName="name" autocomplete="name" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="field">
+        <mat-label>{{ 'login.email' | translate }}</mat-label>
+        <input matInput formControlName="email" type="email" autocomplete="email" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="field">
+        <mat-label>{{ 'login.password' | translate }}</mat-label>
+        <input
+          matInput
+          [type]="hide() ? 'password' : 'text'"
+          formControlName="password"
+          autocomplete="new-password" />
+        <button mat-icon-button matSuffix type="button"
+                (click)="hide.set(!hide())"
+                [attr.aria-label]="'Mostrar u ocultar contraseña'">
+          <mat-icon>{{ hide() ? 'visibility' : 'visibility_off' }}</mat-icon>
+        </button>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="field">
+        <mat-label>{{ 'register.role' | translate }}</mat-label>
+        <mat-select formControlName="role">
+          <mat-option *ngFor="let r of roles" [value]="r">{{ r }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" class="submit" type="submit" [disabled]="loading()">
+        <mat-spinner *ngIf="loading()" diameter="18"></mat-spinner>
+        <span *ngIf="!loading()">{{ 'register.submit' | translate }}</span>
+      </button>
+
+      <p class="error" *ngIf="error()">{{ error() }}</p>
+    </form>
+
+    <div class="register-hint">
+      {{ 'register.haveAccount' | translate }}
+      <a routerLink="/login">{{ 'register.loginHere' | translate }}</a>.
+    </div>
+  </mat-card>
+</div>

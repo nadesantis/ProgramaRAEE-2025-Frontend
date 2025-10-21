@@ -1,0 +1,57 @@
+<mat-card class="card">
+    <h2>Nueva orden</h2>
+    <form [formGroup]="form" (ngSubmit)="save(false)" class="grid">
+  
+      <mat-form-field appearance="outline" class="full">
+        <mat-label>Cliente</mat-label>
+        <mat-select formControlName="clientId" required>
+          <mat-option *ngFor="let c of clients" [value]="c.id">
+            {{ c.name }} ({{ c.id }})
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+  
+      <div class="full">
+        <h3>Ítems</h3>
+  
+        <div class="item" *ngFor="let g of items.controls; let i = index" [formGroup]="g">
+          <mat-form-field appearance="outline" class="product">
+            <mat-label>Producto</mat-label>
+            <mat-select formControlName="productId" required>
+              <mat-option *ngFor="let p of products" [value]="p.id">
+                {{ p.name }} ({{ p.id }})
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+  
+          <mat-form-field appearance="outline" class="qty">
+            <mat-label>Cantidad</mat-label>
+            <input matInput type="number" min="1" formControlName="quantity" required>
+          </mat-form-field>
+  
+        </div>
+  
+        <button mat-stroked-button type="button" (click)="addItem()">
+          <mat-icon>add</mat-icon>
+          Agregar ítem
+        </button>
+      </div>
+  
+      <div class="actions">
+        <button mat-stroked-button type="button" (click)="cancel()">
+          Cancelar
+        </button>
+  
+        <button mat-raised-button color="primary" type="submit" [disabled]="loading() || form.invalid">
+          Crear orden
+        </button>
+
+        <button mat-raised-button color="accent" type="button"
+                [disabled]="loading() || form.invalid"
+                (click)="save(true)">
+          Crear y aprobar
+        </button>
+      </div>
+    </form>
+  </mat-card>
+  

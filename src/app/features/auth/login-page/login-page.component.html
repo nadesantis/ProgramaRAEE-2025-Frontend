@@ -1,0 +1,39 @@
+<div class="login-wrap">
+  <mat-card class="login-card">
+    <div class="brand">
+      <div class="brand">
+        <img src="managerrr.jpg" alt="Logo" class="logo" width="60" height="40">
+        <span>{{ 'app.title' | translate }}</span>
+      </div>
+      <h1>{{ 'login.title' | translate }}</h1>
+      <p class="subtitle">{{ 'login.subtitle' | translate }}</p>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="submit()" class="form">
+      <mat-form-field appearance="outline" class="field">
+        <mat-label>{{ 'login.email' | translate }}</mat-label>
+        <input matInput formControlName="email" autocomplete="username" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="field">
+        <mat-label>{{ 'login.password' | translate }}</mat-label>
+        <input matInput [type]="hide() ? 'password' : 'text'" formControlName="password" autocomplete="current-password" />
+        <button mat-icon-button matSuffix type="button" (click)="hide.set(!hide())" [attr.aria-label]="'Toggle password'">
+          <mat-icon>{{ hide() ? 'visibility' : 'visibility_off' }}</mat-icon>
+        </button>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" class="submit" [disabled]="loading()">
+        <mat-spinner *ngIf="loading()" diameter="18"></mat-spinner>
+        <span *ngIf="!loading()">{{ 'login.enter' | translate }}</span>
+      </button>
+
+      <p class="error" *ngIf="error()">{{ error() }}</p>
+    </form>
+
+    <div class="register-hint">
+      {{ 'login.noAccount' | translate }}
+      <a routerLink="/register">{{ 'login.register' | translate }}</a>.
+    </div>
+  </mat-card>
+</div>

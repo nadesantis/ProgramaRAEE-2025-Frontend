@@ -1,0 +1,76 @@
+<mat-sidenav-container class="container">
+
+  <mat-sidenav #drawer class="sidenav"
+               [mode]="(isHandset$ | async) ? 'over' : 'side'"
+               [opened]="!(isHandset$ | async)">
+
+    <div class="brand">
+      <img src="managerrr.jpg" alt="Logo" class="logo">
+      <span>{{ 'app.title' | translate }}</span>
+    </div>
+
+    <mat-nav-list>
+      <a mat-list-item routerLink="/products" routerLinkActive="active">
+        <mat-icon matListItemIcon>view_list</mat-icon>
+        <span matListItemTitle>{{ 'nav.products' | translate }}</span>
+      </a>
+
+      <a mat-list-item routerLink="/clients" routerLinkActive="active">
+        <mat-icon matListItemIcon>groups</mat-icon>
+        <span matListItemTitle>{{ 'nav.clients' | translate }}</span>
+      </a>
+
+      <a mat-list-item routerLink="/orders" routerLinkActive="active">
+        <mat-icon matListItemIcon>receipt_long</mat-icon>
+        <span matListItemTitle>{{ 'nav.orders' | translate }}</span>
+      </a>
+
+      <a mat-list-item routerLink="/users" routerLinkActive="active">
+        <mat-icon matListItemIcon>manage_accounts</mat-icon>
+        <span matListItemTitle>{{ 'nav.users' | translate }}</span>
+      </a>
+
+      <a mat-list-item routerLink="/pickups" routerLinkActive="active">
+        <mat-icon matListItemIcon>local_shipping</mat-icon>
+        <span matListItemTitle>{{ 'nav.pickups' | translate }}</span>
+      </a>
+      <!-- Si querés restringir por rol, descomenta y usá tu directiva:
+      <a mat-list-item routerLink="/pickups" routerLinkActive="active" *appHasRole="['ADMIN','OPERADOR_LOGISTICO','TECNICO']">
+        <mat-icon matListItemIcon>local_shipping</mat-icon>
+        <span matListItemTitle>{{ 'nav.pickups' | translate }}</span>
+      </a>
+      -->
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <mat-toolbar class="content-toolbar" color="primary">
+      <button mat-icon-button (click)="drawer.toggle()" class="menu-btn" aria-label="Menu" *ngIf="(isHandset$ | async)">
+        <mat-icon>menu</mat-icon>
+      </button>
+
+      <span class="spacer"></span>
+
+      <app-language-switcher></app-language-switcher>
+
+      <button mat-button [matMenuTriggerFor]="userMenu">
+        <mat-icon>account_circle</mat-icon>
+        <span class="user">{{ username }}</span>
+      </button>
+      <mat-menu #userMenu="matMenu">
+        <button mat-menu-item disabled>
+          <mat-icon>verified</mat-icon>
+          <span>{{ 'app.roles' | translate }}: {{ roles.join(', ') || ('app.user' | translate) }}</span>
+        </button>
+        <button mat-menu-item (click)="logout()">
+          <mat-icon>logout</mat-icon>
+          <span>{{ 'app.logout' | translate }}</span>
+        </button>
+      </mat-menu>
+    </mat-toolbar>
+
+    <div class="content">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

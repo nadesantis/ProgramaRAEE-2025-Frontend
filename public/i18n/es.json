@@ -1,0 +1,132 @@
+{
+  "app": {
+    "title": "Panel de Gestión",
+    "logout": "Salir",
+    "roles": "Roles",
+    "user": "Usuario"
+  },
+  "lang": {
+    "es": "Español",
+    "en": "English"
+  },
+  "nav": {
+    "products": "Productos",
+    "clients": "Clientes",
+    "orders": "Órdenes",
+    "users": "Usuarios",
+    "pickups": "Órdenes de Recolección"
+  },
+  "common": {
+    "search": "Buscar",
+    "clear": "Limpiar",
+    "new": "Nuevo",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "approve": "Aprobar",
+    "assign": "Asignar",
+    "start": "Iniciar",
+    "close": "Cerrar",
+    "cancel": "Cancelar",
+    "create": "Crear",
+    "save": "Guardar",
+    "yes": "Sí",
+    "no": "No",
+    "actions": "Acciones",
+    "id": "ID",
+    "status": "Estado",
+    "date": "Fecha",
+    "total": "Total",
+    "technician": "Técnico",
+    "client": "Cliente",
+    "filters": {
+      "clientId": "ID cliente",
+      "status": "Estado"
+    },
+    "placeholders": {
+      "productName": "Nombre del producto"
+    },
+    "messages": {
+      "loading": "Cargando...",
+      "noData": "Sin datos"
+    }
+  },
+
+  "login": {
+    "title": "Ingresar",
+    "subtitle": "Bienvenido al panel de gestión",
+    "email": "Email",
+    "password": "Contraseña",
+    "enter": "Entrar",
+    "invalid": "Usuario o contraseña inválidos",
+    "locked": "Usuario bloqueado. Contactá al administrador.",
+    "tooMany": "Demasiados intentos fallidos. Tu cuenta podría bloquearse.",
+    "haveAccount": "¿No tenés cuenta? Registrate acá."
+  },
+
+  "register": {
+    "title": "Registro de Usuario",
+    "name": "Nombre",
+    "email": "Email",
+    "password": "Contraseña",
+    "role": "Rol",
+    "submit": "Registrarse",
+    "cancel": "Cancelar",
+    "success": "Registro exitoso. Ya podés iniciar sesión.",
+    "goLogin": "¿Ya tenés cuenta? Iniciá sesión acá."
+  },
+
+  "products": {
+    "title": "Productos",
+    "name": "Nombre",
+    "price": "Precio",
+    "active": "Activo",
+    "new": "Nuevo producto",
+    "editTitle": "Editar producto"
+  },
+
+  "clients": {
+    "title": "Clientes",
+    "new": "Nuevo cliente",
+    "name": "Nombre"
+  },
+
+  "orders": {
+    "title": "Órdenes",
+    "new": "Nueva orden",
+    "client": "Cliente"
+  },
+
+  "users": {
+    "title": "Usuarios",
+    "new": "Nuevo usuario",
+    "email": "Email",
+    "name": "Nombre",
+    "roles": "Roles"
+  },
+
+  "pickups": {
+    "title": "Órdenes de Recolección",
+    "new": "Nueva recolección",
+    "onlyMine": "Solo mis recolecciones",
+    "approveOk": "Recolección #{{id}} aprobada",
+    "assignOk": "Asignada a técnico {{tech}}",
+    "startOk": "Recolección #{{id}} iniciada",
+    "closeOk": "Recolección #{{id}} cerrada",
+    "errors": {
+      "approve": "Error al aprobar",
+      "assign": "Error al asignar",
+      "start": "No se pudo iniciar",
+      "close": "No se pudo cerrar"
+    },
+    "status": {
+      "CREATED": "Creada",
+      "APPROVED": "Aprobada",
+      "ASSIGNED": "Asignada",
+      "IN_PROGRESS": "En progreso",
+      "CLOSED": "Cerrada"
+    },
+    "columns": {
+      "requested": "Solicitada"
+    }
+  }
+}

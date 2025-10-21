@@ -1,0 +1,45 @@
+<mat-card class="p-6 max-w-xl mx-auto mt-8">
+  <h2 class="text-2xl font-semibold mb-4">
+    {{ isEdit() ? 'Editar Usuario' : 'Nuevo Usuario' }}
+  </h2>
+
+  <form [formGroup]="form" (ngSubmit)="save()">
+    <mat-form-field appearance="outline" class="w-full mb-3">
+      <mat-label>Nombre</mat-label>
+      <input matInput formControlName="name" />
+    </mat-form-field>
+
+    <!-- <mat-form-field appearance="outline" class="w-full mb-3">
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email" />
+    </mat-form-field> -->
+
+    <mat-form-field appearance="outline" class="w-full mb-3">
+      <mat-label>Roles</mat-label>
+      <mat-select formControlName="roles" multiple>
+        <mat-option *ngFor="let r of roles" [value]="r">{{ r }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field *ngIf="!isEdit()" appearance="outline" class="w-full mb-3">
+      <mat-label>Contraseña</mat-label>
+      <input matInput type="password" formControlName="password" />
+    </mat-form-field>
+
+    <div class="flex gap-3 mt-5">
+      <button mat-flat-button color="primary" type="submit" [disabled]="loading()">
+        {{ isEdit() ? 'Actualizar' : 'Crear' }}
+      </button>
+      <button mat-stroked-button color="warn" type="button" (click)="cancel()">Cancelar</button>
+    </div>
+  </form>
+
+  <!-- <div *ngIf="isEdit()" class="mt-8 border-t pt-4">
+    <h3 class="text-lg font-medium mb-2">Cambiar contraseña</h3>
+    <mat-form-field appearance="outline" class="w-full mb-3">
+      <mat-label>Nueva contraseña</mat-label>
+      <input matInput type="password" [formControl]="newPassword" />
+    </mat-form-field>
+    <button mat-flat-button color="accent" (click)="changePassword()">Cambiar</button>
+  </div> -->
+</mat-card>

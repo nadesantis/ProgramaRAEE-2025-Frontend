@@ -1,0 +1,9 @@
+.table-wrapper { position: relative; }
+.table-wrapper.loading { opacity: 0.7; }
+.spinner {
+  position: absolute; inset: 0;
+  display: grid; place-items: center;
+  background: rgba(255,255,255,0.5);
+}
+.col-actions { width: 120px; text-align: center; }
+td.mat-mdc-cell, th.mat-mdc-header-cell { padding: 8px 12px; }

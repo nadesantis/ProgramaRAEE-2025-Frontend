@@ -1,0 +1,40 @@
+<div class="page">
+    <div class="page-header">
+      <h2>Productos</h2>
+  
+      <div class="page-actions">
+        <mat-form-field appearance="outline" class="field">
+          <mat-label>Buscar</mat-label>
+          <input matInput [formControl]="q" (keyup.enter)="onSearch()" placeholder="Nombre del producto">
+        </mat-form-field>
+  
+        <button mat-raised-button color="primary" (click)="onSearch()">
+          <mat-icon>search</mat-icon>
+          <span>Buscar</span>
+        </button>
+  
+        <button mat-raised-button color="accent" (click)="newProduct()" *appHasRole="'ADMIN'">
+          <mat-icon>add</mat-icon>
+          <span>Nuevo</span>
+        </button>
+      </div>
+    </div>
+  
+    <mat-card class="card">
+      <div class="table-scroll">
+        <app-table
+        [columns]="columns"
+        [data]="data"
+        [total]="total"
+        [pageIndex]="pageIndex"
+        [pageSize]="pageSize"
+        [loading]="loading()"
+        [actions]="['edit','delete']"
+        (paginate)="onPaginate($event)"
+        (action)="onAction($event)">
+      </app-table>
+      
+      </div>
+    </mat-card>
+  </div>
+  

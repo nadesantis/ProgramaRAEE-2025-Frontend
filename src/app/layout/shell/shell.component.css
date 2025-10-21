@@ -1,0 +1,25 @@
+.container { height: 100vh; }
+.sidenav { width: 250px; border-right: 0; }
+.brand { display: flex; align-items: center; gap: 8px; padding: 16px 16px 8px; font-weight: 600; color: #374151; }
+.section { padding: 10px 16px; font-size: 12px; color: #6b7280; text-transform: uppercase; }
+
+.content-toolbar { padding: 0 8px; background: transparent; }
+.menu-btn { margin-right: 8px; }
+.spacer { flex: 1 1 auto; }
+.user { margin-left: 6px; }
+
+.content { padding: 16px; max-width: 1200px; margin: 0 auto; }
+a.mat-mdc-list-item.active { background: rgba(63,81,181,0.12); }
+
+
+.brand {
+    display: flex;
+    align-items: center;
+    padding: 16px;
+  }
+  
+  .logo {
+    height: 40px;
+    margin-right: 8px;
+  }
+  

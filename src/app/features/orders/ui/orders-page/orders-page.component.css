@@ -1,0 +1,27 @@
+.page { padding: 16px; max-width: 1280px; margin: 0 auto; position: relative; }
+.page-header { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 12px; margin-bottom: 14px; }
+.page-header h2 { margin: 0; font-weight: 700; }
+.page-actions { display: inline-flex; align-items: center; gap: 8px; }
+.field { width: 160px; }
+.card { padding: 8px; }
+.table-scroll { overflow-x: auto; }
+
+/* FAB móvil */
+.fab { position: fixed; right: 20px; bottom: 20px; z-index: 10; }
+
+.only-sm { display: none; }
+.hide-sm { display: inline-flex; }
+
+@media (max-width: 900px) {
+  .page-header { grid-template-columns: 1fr; }
+  .page-actions { flex-wrap: wrap; }
+  .field { width: 100%; }
+  .only-sm { display: inline-flex; }
+  .hide-sm { display: none; }
+}
+
+/* Ocultar Editar y Eliminar SOLO en Órdenes */
+td.mat-cell button.mat-icon-button[aria-label="Editar"],
+td.mat-cell button.mat-icon-button[aria-label="Eliminar"] {
+  display: none !important;
+}

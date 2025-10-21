@@ -1,0 +1,56 @@
+<div class="page">
+  <div class="page-header">
+    <h2>Órdenes</h2>
+
+    <div class="page-actions">
+      <mat-form-field appearance="outline" class="field">
+        <mat-label>ID cliente</mat-label>
+        <input
+          matInput
+          type="number"
+          [formControl]="clientId"
+          (keyup.enter)="search()"
+          placeholder="Ej: 2" />
+        <button mat-icon-button matSuffix *ngIf="clientId.value !== null" (click)="clearFilter()" aria-label="Limpiar filtro">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" (click)="search()">
+        <mat-icon>search</mat-icon>
+        <span>Buscar</span>
+      </button>
+
+      <button mat-raised-button color="accent" class="hide-sm" (click)="newOrder()" *appHasRole="'ADMIN'">
+        <mat-icon>add_shopping_cart</mat-icon>
+        <span>Nueva orden</span>
+      </button>
+    </div>
+  </div>
+
+  <mat-card class="card">
+    <div class="table-scroll">
+      <app-table
+      [columns]="columns"
+      [data]="data"
+      [total]="total"
+      [pageIndex]="pageIndex"
+      [pageSize]="pageSize"
+      [loading]="loading()"
+      [actions]="['approve']"
+      (paginate)="onPaginate($event)"
+      (action)="onAction($event)">
+    </app-table>
+    
+    
+    
+    
+    
+    
+    </div>
+  </mat-card>
+
+  <button mat-fab color="accent" class="fab only-sm" aria-label="Nueva orden" (click)="newOrder()" *appHasRole="'ADMIN'">
+    <mat-icon>add</mat-icon>
+  </button>
+</div>

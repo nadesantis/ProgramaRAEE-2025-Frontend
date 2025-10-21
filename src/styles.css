@@ -1,0 +1,36 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+
+
+
+.page {
+    padding: 24px;
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+  
+  .page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+  
+  .page-header h2 {
+    margin: 0;
+    font-weight: 600;
+    color: #3f51b5; 
+  }
+  
+  .page-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  

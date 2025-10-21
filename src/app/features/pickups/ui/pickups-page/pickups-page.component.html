@@ -1,0 +1,80 @@
+<div class="page">
+    <div class="page-header">
+      <h2>Órdenes de Recolección</h2>
+  
+      <div class="page-actions">
+        <mat-form-field appearance="outline" class="field">
+          <mat-label>ID cliente</mat-label>
+          <input matInput type="number" [formControl]="clientId" (keyup.enter)="search()">
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline" class="field">
+          <mat-label>Estado</mat-label>
+          <mat-select [formControl]="status">
+            <mat-option value="">(cualquiera)</mat-option>
+            <mat-option value="CREATED">Creada</mat-option>
+            <mat-option value="APPROVED">Aprobada</mat-option>
+            <mat-option value="ASSIGNED">Asignada</mat-option>
+            <mat-option value="IN_PROGRESS">En progreso</mat-option>
+            <mat-option value="CLOSED">Cerrada</mat-option>
+          </mat-select>
+        </mat-form-field>
+  
+        <button mat-raised-button color="primary" (click)="search()">
+          <mat-icon>search</mat-icon>
+          <span>Buscar</span>
+        </button>
+  
+        <button mat-stroked-button (click)="clearFilters()">
+          <mat-icon>filter_alt_off</mat-icon>
+          Limpiar
+        </button>
+  
+        <button mat-raised-button color="accent" (click)="newPickup()" *appHasRole="['ADMIN','OPERADOR_VENTAS','OPERADOR_LOGISTICO']">
+          <mat-icon>add</mat-icon>
+          Nueva recolección
+        </button>
+      </div>
+    </div>
+  
+    <mat-card class="card">
+      <div class="table-scroll">
+        <table mat-table [dataSource]="data" class="mat-elevation-z1">
+          <ng-container *ngFor="let col of columns" [matColumnDef]="col.key">
+            <th mat-header-cell *matHeaderCellDef [style.width]="col.width">{{ col.header }}</th>
+            <td mat-cell *matCellDef="let row">{{ col.cell ? col.cell(row) : row[col.key] }}</td>
+          </ng-container>
+  
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef> Acciones </th>
+            <td mat-cell *matCellDef="let row">
+              <button mat-icon-button aria-label="Aprobar" *ngIf="showApprove(row)" (click)="approve(row)">
+                <mat-icon>check_circle</mat-icon>
+              </button>
+              <button mat-icon-button aria-label="Asignar" *ngIf="showAssign(row)" (click)="assign(row)">
+                <mat-icon>assignment_ind</mat-icon>
+              </button>
+              <button mat-icon-button aria-label="Iniciar" *ngIf="showStart(row)" (click)="start(row)">
+                <mat-icon>play_circle</mat-icon>
+              </button>
+              <button mat-icon-button aria-label="Cerrar" *ngIf="showClose(row)" (click)="close(row)">
+                <mat-icon>task_alt</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+  
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+          
+        </table>
+  
+        <mat-paginator
+          [length]="total"
+          [pageIndex]="pageIndex"
+          [pageSize]="pageSize"
+          (page)="onPaginate($event)">
+        </mat-paginator>
+      </div>
+    </mat-card>
+  </div>
+  

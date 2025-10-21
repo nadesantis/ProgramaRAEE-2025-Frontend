@@ -1,0 +1,17 @@
+.page { padding: 16px; max-width: 1280px; margin: 0 auto; }
+.page-header { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 12px; margin-bottom: 14px; }
+.page-header h2 { margin: 0; font-weight: 700; letter-spacing: .2px; }
+.page-actions { display: inline-flex; align-items: center; gap: 8px; }
+.field { width: 280px; }
+.card { padding: 8px; }
+.table-scroll { overflow-x: auto; }
+
+@media (max-width: 900px) {
+  .page-header { grid-template-columns: 1fr; gap: 10px; }
+  .page-actions { flex-wrap: wrap; }
+  .field { width: 100%; min-width: 0; }
+}
+:host ::ng-deep td.mat-cell button.mat-icon-button[aria-label="Editar"],
+:host ::ng-deep td.mat-cell button.mat-icon-button[aria-label="Eliminar"] {
+  display: none !important;
+}

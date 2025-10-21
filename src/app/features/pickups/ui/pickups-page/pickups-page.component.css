@@ -1,0 +1,11 @@
+.page { padding: 16px; max-width: 1280px; margin: 0 auto; }
+.page-header { display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: center; margin-bottom: 14px; }
+.page-actions { display: inline-flex; align-items: center; gap: 8px; }
+.field { width: 200px; }
+.card { padding: 8px; }
+.table-scroll { overflow-x: auto; }
+
+@media (max-width: 900px) {
+  .page-header { grid-template-columns: 1fr; }
+  .field { width: 100%; }
+}
