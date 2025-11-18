@@ -1,0 +1,28 @@
+<h2 mat-dialog-title>Cerrar recolección</h2>
+
+<div mat-dialog-content class="space-y-4">
+  <mat-form-field appearance="outline" class="w-full">
+    <mat-label>Fecha de cierre</mat-label>
+    <input matInput type="datetime-local" formControlName="closedAt" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="w-full">
+    <mat-label>Tiempo de recolección (min)</mat-label>
+    <input matInput type="number" formControlName="durationMinutes" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="w-full">
+    <mat-label>Cantidad de equipos retirados</mat-label>
+    <input matInput type="number" formControlName="devicesCount" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="w-full">
+    <mat-label>Comentarios</mat-label>
+    <textarea matInput rows="3" formControlName="notes"></textarea>
+  </mat-form-field>
+</div>
+
+<div mat-dialog-actions class="justify-end gap-2">
+  <button mat-stroked-button (click)="cancel()">Cancelar</button>
+  <button mat-flat-button color="primary" (click)="save()">Cerrar</button>
+</div>

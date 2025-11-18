@@ -34,6 +34,41 @@ export class AuthService {
   }
   
 
+  loginWithGoogle(idToken: string): Observable<AuthResponse> {
+    return this.http
+      .post<AuthResponse>(`${environment.apiUrl}/api/auth/google-login`, { idToken })
+      .pipe(
+        tap(res => {
+          // Reutilizamos la lógica de login normal
+          const token = (res as any).accessToken || (res as any).token || (res as any).jwt;
+          if (!token) throw new Error('No token in response');
+          this.setToken(token);
+  
+          // Si además querés guardar los datos del usuario:
+          localStorage.setItem('auth_user', JSON.stringify({
+            id: res.id,
+            name: res.name,
+            email: res.email,
+            role: res.role
+          }));
+        })
+      );
+  }
+  
+  
+  private handleAuthSuccess(res: AuthResponse): void {
+    const token = (res as any).accessToken || (res as any).token || (res as any).jwt;
+    if (!token) return;
+    this.setToken(token);
+  
+    localStorage.setItem('auth_user', JSON.stringify({
+      id: res.id,
+      name: res.name,
+      email: res.email,
+      role: res.role
+    }));
+  }
+  
   logout(): void {
     localStorage.removeItem(TOKEN_KEY);
     localStorage.removeItem(USER_KEY);
@@ -45,10 +80,25 @@ export class AuthService {
     return localStorage.getItem(TOKEN_KEY);
   }
 
-  getUsername(): string | null {
-    return localStorage.getItem(USER_KEY);
-  }
+  // getUsername(): string | null {
+  //   return localStorage.getItem(USER_KEY);
+  // }
 
+  getUsername(): string | null {
+    const raw = localStorage.getItem(USER_KEY);
+    if (!raw) return null;
+  
+    try {
+      const obj = JSON.parse(raw);
+      if (obj && typeof obj.name === 'string') {
+        return obj.name;
+      }
+    } catch {
+      return raw;
+    }
+  
+    return raw;
+  }
   getRoles(): string[] {
     try {
       return JSON.parse(localStorage.getItem(ROLES_KEY) ?? '[]');
@@ -78,4 +128,6 @@ export class AuthService {
     localStorage.setItem(ROLES_KEY, JSON.stringify(roles));
     this.isAuth$.next(true);
   }
+
+
 }

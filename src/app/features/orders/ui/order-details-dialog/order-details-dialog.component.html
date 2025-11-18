@@ -1,0 +1,76 @@
+<h2 mat-dialog-title>Detalles de la Orden</h2>
+
+<div class="meta">
+  <div><span class="label">Cliente:</span> {{ data.clientName || '—' }}</div>
+  <div><span class="label">CUIT:</span> {{ data.clientTaxId || '—' }}</div>
+  <div><span class="label">Fecha:</span> {{ createdDisplay() }}</div>
+  <div>
+    <span class="label">Estado:</span>
+    <span
+      class="status"
+      [ngClass]="{
+        pending: data.status === 'PENDING' || data.status === 'CREATED' || !data.status,
+        approved: data.status === 'APPROVED',
+        closed: data.status === 'CLOSED'
+      }"
+    >
+      {{ statusDisplay() }}
+    </span>
+  </div>
+</div>
+
+<div class="table-wrap">
+  <table class="items">
+    <thead>
+      <tr>
+        <th style="text-align:left">Producto</th>
+        <th class="num" style="width:110px">Cantidad</th>
+        <th class="num" style="width:130px">Precio</th>
+        <th class="num" style="width:160px">Subtotal</th>
+      </tr>
+    </thead>
+
+    <tbody *ngIf="(data.items?.length || 0) > 0; else emptyRows">
+      <tr *ngFor="let it of data.items">
+        <td>{{ it.productName || ('#' + it.productId) }}</td>
+        <td class="num">{{ num(it.quantity) }}</td>
+        <td class="num">{{ money.format(num(it.unitPrice)) }}</td>
+        <td class="num">{{ money.format(rowSubtotal(it)) }}</td>
+      </tr>
+    </tbody>
+
+    <ng-template #emptyRows>
+      <tbody>
+        <tr>
+          <td colspan="4" class="empty">Esta orden no tiene ítems.</td>
+        </tr>
+      </tbody>
+    </ng-template>
+
+    <tfoot>
+      <tr>
+        <td colspan="3" class="total-label">Total:</td>
+        <td class="num total-value">{{ money.format(total) }}</td>
+      </tr>
+    </tfoot>
+  </table>
+</div>
+
+<!-- <div class="actions">
+  <button mat-stroked-button (click)="close()">Cerrar</button>
+</div> -->
+<div class="actions">
+  <button mat-stroked-button (click)="close()">Cerrar</button>
+  <button mat-stroked-button (click)="downloadPdf()">Descargar PDF</button>
+
+  <button
+    mat-flat-button
+    color="accent"
+    (click)="payWithMp()"
+    [disabled]="loadingMp || !data?.id || total <= 0"
+  >
+    Pagar con Mercado Pago
+  </button>
+</div>
+
+  

@@ -6,7 +6,7 @@
         <span>{{ 'app.title' | translate }}</span>
       </div>
       <h1>{{ 'register.title' | translate }}</h1>
-      <p class="subtitle">{{ 'register.subtitle' | translate }}</p>
+      <p class="subtitle">Bienvenido al panel de gestion</p> 
     </div>
 
     <form [formGroup]="form" (ngSubmit)="submit()" class="form">
@@ -51,8 +51,8 @@
     </form>
 
     <div class="register-hint">
-      {{ 'register.haveAccount' | translate }}
-      <a routerLink="/login">{{ 'register.loginHere' | translate }}</a>.
+      Ya tenes cuenta?
+      <a routerLink="/login">logueate!</a>.
     </div>
   </mat-card>
 </div>

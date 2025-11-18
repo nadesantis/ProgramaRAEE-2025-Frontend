@@ -1,0 +1,20 @@
+/* src/app/features/backup/ui/backup-page/backup-page.component.css */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 16px;
+  }
+  .card h2 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 0;
+  }
+  .row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 12px 0;
+  }
+  .fileName { opacity: .7; font-size: .9rem; }
+  

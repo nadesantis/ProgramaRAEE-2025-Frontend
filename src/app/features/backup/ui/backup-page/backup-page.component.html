@@ -1,0 +1,20 @@
+<div class="grid">
+  <!-- EXCEL -->
+  <!-- <mat-card class="card">
+    <h2><mat-icon>download</mat-icon> Exportar Backup (Excel)</h2>
+    <button mat-flat-button color="primary" (click)="onExport()" [disabled]="loadingExport()">
+      <mat-icon>file_download</mat-icon>
+      Descargar .xlsx
+    </button>
+    <mat-progress-bar *ngIf="loadingExport()" mode="indeterminate"></mat-progress-bar>
+  </mat-card> -->
+
+  <mat-card class="card">
+    <h2><mat-icon>picture_as_pdf</mat-icon> Exportar Backup</h2>
+    <button mat-flat-button color="accent" (click)="onExportPdf()" [disabled]="loadingExportPdf()">
+      <mat-icon>picture_as_pdf</mat-icon>
+      Descargar .pdf
+    </button>
+    <mat-progress-bar *ngIf="loadingExportPdf()" mode="indeterminate"></mat-progress-bar>
+  </mat-card>
+</div>

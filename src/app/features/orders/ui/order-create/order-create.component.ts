@@ -46,12 +46,12 @@ export class OrderCreateComponent implements OnInit {
     this.loading.set(true);
 
     this.clientsApi.list({ page: 0, size: 50 }).subscribe({
-      next: (res) => this.clients = res.content.map(c => ({ id: c.id, name: c.name })),
+      next: (res : any) => this.clients = res.content.map(c => ({ id: c.id, name: c.name })),
       error: () => {}
     });
 
     this.productsApi.list({ page: 0, size: 50 }).subscribe({
-      next: (res) => this.products = res.content.map(p => ({ id: p.id, name: p.name, unitPrice: p.unitPrice })),
+      next: (res : any) => this.products = res.content.map(p => ({ id: p.id, name: p.name, unitPrice: p.unitPrice })),
       error: () => {}
     }).add(() => {
       if (this.items.length === 0) this.addItem();
@@ -79,7 +79,7 @@ export class OrderCreateComponent implements OnInit {
 
     this.loading.set(true);
     this.ordersApi.create(body as any).subscribe({
-      next: (o) => {
+      next: (o : any) => {
         if (!approveAfterCreate) {
           this.loading.set(false);
           this.sb.open(`Orden #${o.id} creada`, 'Ok', { duration: 2000 });

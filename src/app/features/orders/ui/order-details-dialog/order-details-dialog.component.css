@@ -1,0 +1,101 @@
+:host {
+    display: block;
+    padding: 8px 12px 4px;
+  }
+  
+  /* Meta info */
+  .meta {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(220px, 1fr));
+    gap: 6px 18px;
+    margin: 6px 6px 14px;
+    font-size: 14px;
+  }
+  .meta .label {
+    font-weight: 600;
+    color: #374151;
+    margin-right: 6px;
+  }
+  
+  /* Estado (badge) */
+  .status {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1;
+    vertical-align: middle;
+  }
+  .status.pending  { background: #fff4e5; color: #8a5800; border: 1px solid #ffd7a8; }
+  .status.approved { background: #eaf7ed; color: #0f6b2e; border: 1px solid #bfe3c8; }
+  .status.closed   { background: #ecf0ff; color: #2b4acb; border: 1px solid #cad5ff; }
+  
+  /* Tabla */
+  .table-wrap {
+    overflow-x: auto;
+    border-radius: 14px;
+    border: 1px solid #ececec;
+    background: #fff;
+  }
+  
+  table.items {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 14px;
+  }
+  .items thead th {
+    position: sticky;
+    top: 0;
+    background: #f8fafc;
+    color: #334155;
+    font-weight: 600;
+    padding: 10px 12px;
+    border-bottom: 1px solid #e5e7eb;
+  }
+  .items tbody td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #f1f5f9;
+  }
+  .items tbody tr:hover td {
+    background: #fafafa;
+  }
+  .items .num {
+    text-align: right;
+    white-space: nowrap;
+  }
+  
+  .items tfoot td {
+    padding: 12px;
+    background: #f8fafc;
+    border-top: 1px solid #e5e7eb;
+  }
+  .total-label {
+    text-align: right;
+    font-weight: 700;
+  }
+  .total-value {
+    font-weight: 800;
+  }
+  
+  /* Sin ítems */
+  .empty {
+    padding: 18px;
+    color: #6b7280;
+    font-style: italic;
+  }
+  
+  /* Acciones */
+  .actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 14px;
+  }
+  
+  /* Responsive */
+  @media (max-width: 640px) {
+    .meta { grid-template-columns: 1fr; }
+  }
+  

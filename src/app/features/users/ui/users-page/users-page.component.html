@@ -1,3 +1,4 @@
+<!-- src/app/features/users/ui/users-page/users-page.component.html -->
 <mat-card class="p-5 mt-6">
   <div class="flex justify-between items-center mb-4">
     <h2 class="text-2xl font-semibold">Usuarios</h2>
@@ -13,8 +14,8 @@
     [total]="total"
     [pageIndex]="pageIndex"
     [pageSize]="pageSize"
+    [actions]="tableActions" 
     (paginate)="onPaginate($event)"
-    (action)="onAction($event)"
-    >
+    (action)="onAction($event)">
   </app-table>
 </mat-card>

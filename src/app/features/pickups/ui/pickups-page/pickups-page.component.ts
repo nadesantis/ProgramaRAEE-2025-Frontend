@@ -1,31 +1,35 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
 
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatIconModule } from '@angular/material/icon';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatTooltipModule } from '@angular/material/tooltip';
+
+import { ClosePickupRequest } from '../../data/pickups.models';
+
+import { ClosePickupDialogComponent } from '../close-pickup-dialog/close-pickup-dialog.component';
+
+import { Router } from '@angular/router';
 
 import { PickupsApi } from '../../data/pickups.api';
-import { PickupOrder, PickupStatus } from '../../data/pickups.models';
-import { TableComponent, TableColumn } from '../../../../shared/components/table/table.component';
-import { HasRoleDirective } from '../../../../core/auth/hash-core.directive';
+import { PickupOrder, PickupOrderPage, PickupStatus } from '../../data/pickups.models';
 import { AuthService } from '../../../../core/auth/auth.service';
 
-import { AssignDialogComponent } from '../shared/assign-dialog/assign-dialog.component';
-import { CloseDialogComponent } from '../shared/close-dialog/close-dialog.component';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 
+import { TechSelectDialogComponent } from '../shared/tech-select-dialog/tech-select-dialog.component';
 
 
 type Row = PickupOrder & {
+  clientName?: string | null;
+  technicianName?: string | null;
   requestedAtDisplay: string;
   statusDisplay: string;
 };
@@ -36,82 +40,93 @@ type Row = PickupOrder & {
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    // material
     MatCardModule,
     MatButtonModule,
     MatFormFieldModule,
-    MatInputModule,
     MatSelectModule,
-    MatSnackBarModule,
     MatTableModule,
     MatPaginatorModule,
     MatIconModule,
-    MatDialogModule,
-    TableComponent,
-    HasRoleDirective
+    MatSnackBarModule,
+    MatTooltipModule,
+    MatDialogModule
   ],
   templateUrl: './pickups-page.component.html',
-  styleUrls: ['./pickups-page.component.css']
 })
 export class PickupsPageComponent implements OnInit {
+  // inyecciones
   private api = inject(PickupsApi);
   private router = inject(Router);
   private sb = inject(MatSnackBar);
   private auth = inject(AuthService);
   private dialog = inject(MatDialog);
 
+  private readonly deletableStatuses: PickupStatus[] = ['CREATED', 'PENDING'];
+
+  // estado UI
   loading = signal(false);
   data: Row[] = [];
   total = 0;
   pageIndex = 0;
   pageSize = 10;
 
-  clientId = new FormControl<number | null>(null);
+  // filtro solo por estado
   status = new FormControl<PickupStatus | ''>('');
 
+  // helpers de formato
   private dtf = new Intl.DateTimeFormat('es-AR', { dateStyle: 'short', timeStyle: 'short' });
-  private statusMap: Record<PickupStatus, string> = {
+  private statusMap: Record<string, string> = {
     CREATED: 'Creada',
     APPROVED: 'Aprobada',
     ASSIGNED: 'Asignada',
     IN_PROGRESS: 'En progreso',
     CLOSED: 'Cerrada'
   };
+  
 
-  columns: TableColumn<Row>[] = [
-    // { key: 'id', header: 'ID', width: '80px' },
-    { key: 'clientId', header: 'Cliente' },
-    { key: 'technicianId', header: 'Técnico' },
-    { key: 'statusDisplay', header: 'Estado' },
-    { key: 'requestedAtDisplay', header: 'Solicitada' }
+  displayedColumns: string[] = [
+    'clientName',
+    'technicianName',
+    'status',
+    'requestedAt',
+    'location',
+    'raeeKg',
+    'actions',
   ];
 
-  displayedColumns: string[] = this.columns.map(c => c.key).concat('actions');
+  ngOnInit(): void {
+    this.load();
+  }
 
-  ngOnInit(): void { this.load(); }
-
+  // ====== CARGA ======
   private mapRow(o: PickupOrder): Row {
+    const anyo = o as any;
     return {
       ...o,
+      clientName: anyo.clientName ?? `ID ${o.clientId}`,
+      technicianName: anyo.technicianName ?? (o.technicianId ? `ID ${o.technicianId}` : '—'),
       requestedAtDisplay: o.requestedAt ? this.dtf.format(new Date(o.requestedAt)) : '—',
-      statusDisplay: this.statusMap[o.status] ?? o.status
+      statusDisplay: this.statusMap[o.status] ?? o.status,
     };
   }
 
   load(): void {
     this.loading.set(true);
-    this.api.list({
-      page: this.pageIndex,
-      size: this.pageSize,
-      clientId: this.clientId.value ?? undefined,
-      status: (this.status.value as PickupStatus) || undefined
-    }).subscribe({
-      next: res => {
-        this.data = res.content.map(this.mapRow.bind(this));
-        this.total = res.totalElements;
-        this.loading.set(false);
-      },
-      error: () => this.loading.set(false)
-    });
+    this.api
+      .list({
+        page: this.pageIndex,
+        size: this.pageSize,
+        status: (this.status.value as PickupStatus) || undefined,
+      })
+      .subscribe({
+        next: (res: PickupOrderPage) => {
+          this.data = (res.content ?? []).map((o) => this.mapRow(o));
+          this.total = res.totalElements ?? 0;
+          this.loading.set(false);
+        },
+        error: () => this.loading.set(false),
+      });
   }
 
   onPaginate(e: PageEvent) {
@@ -120,71 +135,138 @@ export class PickupsPageComponent implements OnInit {
     this.load();
   }
 
-  search() { this.pageIndex = 0; this.load(); }
+  search() {
+    this.pageIndex = 0;
+    this.load();
+  }
 
   clearFilters() {
-    this.clientId.setValue(null);
     this.status.setValue('');
     this.search();
   }
 
-  canApproveAssign(): boolean {
-    return this.auth.hasRole('ADMIN') || this.auth.hasRole('OPERADOR_LOGISTICO');
+  newPickup() {
+    this.router.navigate(['/pickups/new']);
   }
 
-  canStartClose(): boolean {
+  // ====== ROLES ======
+  private canApproveAssign(): boolean {
+    return this.auth.hasRole('ADMIN') || this.auth.hasRole('OPERADOR_LOGISTICO');
+  }
+  private canStartClose(): boolean {
     return this.auth.hasRole('TECNICO') || this.auth.hasRole('ADMIN');
   }
 
-  newPickup() { this.router.navigate(['/pickups/new']); }
+  // ====== VISIBILIDAD DE ACCIONES ======
+  showApprove(row: PickupOrder) {
+    return this.canApproveAssign() && row.status === 'CREATED';
+  }
+  showAssign(row: PickupOrder) {
+    return this.canApproveAssign() && row.status === 'APPROVED';
+  }
+  showStart(row: PickupOrder) {
+    return this.canStartClose() && row.status === 'ASSIGNED';
+  }
+  showClose(row: PickupOrder) {
+    return this.canStartClose() && (row.status === 'ASSIGNED' || row.status === 'IN_PROGRESS');
+  }
 
+  // ====== HANDLERS DE ACCIONES ======
   approve(row: PickupOrder) {
-    if (!this.canApproveAssign()) return;
+    if (!this.showApprove(row)) return;
     this.loading.set(true);
     this.api.approve(row.id).subscribe({
-      next: () => { this.sb.open(`Recolección #${row.id} aprobada`, 'Ok', { duration: 2000 }); this.load(); },
-      error: () => { this.loading.set(false); this.sb.open('Error al aprobar', 'Ok', { duration: 2000 }); }
+      next: () => {
+        this.sb.open(`Recolección #${row.id} aprobada`, 'Ok', { duration: 2000 });
+        this.load();
+      },
+      error: () => {
+        this.loading.set(false);
+        this.sb.open('Error al aprobar', 'Ok', { duration: 2000 });
+      },
     });
   }
 
   assign(row: PickupOrder) {
-    if (!this.canApproveAssign()) return;
-    const ref = this.dialog.open(AssignDialogComponent, { data: { technicianId: row.technicianId ?? null }});
+    if (!this.showAssign(row)) return;
+  
+    const ref = this.dialog.open(TechSelectDialogComponent, { width: '520px' });
     ref.afterClosed().subscribe((techId: number | null | undefined) => {
-      if (techId == null) return;
+      if (!techId) return;
       this.loading.set(true);
       this.api.assign(row.id, { technicianId: techId }).subscribe({
-        next: () => { this.sb.open(`Asignada a técnico ${techId}`, 'Ok', { duration: 2000 }); this.load(); },
+        next: () => { this.sb.open(`Asignada a técnico #${techId}`, 'Ok', { duration: 2000 }); this.load(); },
         error: () => { this.loading.set(false); this.sb.open('Error al asignar', 'Ok', { duration: 2000 }); }
       });
     });
   }
-
+  
   start(row: PickupOrder) {
-    if (!this.canStartClose()) return;
+    if (!this.showStart(row)) return;
     this.loading.set(true);
     this.api.start(row.id).subscribe({
-      next: () => { this.sb.open(`Recolección #${row.id} iniciada`, 'Ok', { duration: 2000 }); this.load(); },
-      error: () => { this.loading.set(false); this.sb.open('No se pudo iniciar', 'Ok', { duration: 2000 }); }
+      next: () => {
+        this.sb.open(`Recolección #${row.id} iniciada`, 'Ok', { duration: 2000 });
+        this.load();
+      },
+      error: () => {
+        this.loading.set(false);
+        this.sb.open('No se pudo iniciar', 'Ok', { duration: 2000 });
+      },
     });
   }
 
   close(row: PickupOrder) {
-    if (!this.canStartClose()) return;
-    const ref = this.dialog.open(CloseDialogComponent, { data: { notes: '' }});
-    ref.afterClosed().subscribe((notes: string | null | undefined) => {
-      if (notes === undefined) return;
+    if (!this.showClose(row)) return;
+  
+    const ref = this.dialog.open(ClosePickupDialogComponent, { width: '520px' });
+  
+    ref.afterClosed().subscribe((body: ClosePickupRequest | null | undefined) => {
+      if (!body) return;                     // cancelado
+  
       this.loading.set(true);
-      this.api.close(row.id, { notes: notes || undefined }).subscribe({
-        next: () => { this.sb.open(`Recolección #${row.id} cerrada`, 'Ok', { duration: 2000 }); this.load(); },
-        error: () => { this.loading.set(false); this.sb.open('No se pudo cerrar', 'Ok', { duration: 2000 }); }
+      this.api.close(row.id, body).subscribe({
+        next: () => {
+          this.sb.open(`Recolección #${row.id} cerrada`, 'Ok', { duration: 2000 });
+          this.load();
+        },
+        error: () => {
+          this.loading.set(false);
+          this.sb.open('No se pudo cerrar', 'Ok', { duration: 2000 });
+        }
       });
     });
   }
 
-  // visibilidad por estado
-  showApprove(row: PickupOrder) { return this.canApproveAssign() && row.status === 'CREATED'; }
-  showAssign(row: PickupOrder)  { return this.canApproveAssign() && row.status === 'APPROVED'; }
-  showStart(row: PickupOrder)   { return this.canStartClose() && row.status === 'ASSIGNED'; }
-  showClose(row: PickupOrder)   { return this.canStartClose() && (row.status === 'ASSIGNED' || row.status === 'IN_PROGRESS'); }
+
+  showDelete(row: PickupOrder) {
+    return this.deletableStatuses.includes(row.status);
+  }
+  
+  remove(row: PickupOrder) {
+   // if (!confirm(`¿Eliminar recolección #${row.id}?`)) return;
+    this.loading.set(true);
+    this.api.delete(row.id).subscribe({
+      next: () => { this.sb.open('Recolección eliminada', 'Ok', { duration: 2000 }); this.load(); },
+      error: () => { this.loading.set(false); this.sb.open('Error al eliminar', 'Ok', { duration: 2500 }); }
+    });
+  }
+
+  // badge de estado
+  statusClass(s: PickupStatus): string {
+    switch (s) {
+      case 'CREATED':
+        return 'badge created';
+      case 'APPROVED':
+        return 'badge approved';
+      case 'ASSIGNED':
+        return 'badge assigned';
+      case 'IN_PROGRESS':
+        return 'badge inprogress';
+      case 'CLOSED':
+        return 'badge closed';
+      default:
+        return 'badge';
+    }
+  }
 }

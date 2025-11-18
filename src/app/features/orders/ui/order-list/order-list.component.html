@@ -1,0 +1,65 @@
+<div class="filters flex gap-3 items-end mb-4">
+    <mat-form-field appearance="outline" class="w-72">
+      <mat-label>Razón social o CUIT</mat-label>
+      <input matInput [formControl]="form.controls.q" placeholder="Ej: ACME / 30-12345678-9">
+    </mat-form-field>
+  
+    <mat-form-field appearance="outline" class="w-48">
+      <mat-label>Estado</mat-label>
+      <mat-select [formControl]="form.controls.status">
+        <mat-option value="">(Todos)</mat-option>
+        <mat-option value="CREATED">CREATED</mat-option>
+        <mat-option value="APPROVED">APPROVED</mat-option>
+        <mat-option value="CLOSED">CLOSED</mat-option>
+      </mat-select>
+    </mat-form-field>
+  
+    <button mat-button (click)="clearFilters()">Limpiar</button>
+  </div>
+  
+  <table mat-table [dataSource]="data" class="mat-elevation-z1 w-full">
+  
+    <ng-container matColumnDef="createdAt">
+      <th mat-header-cell *matHeaderCellDef> Fecha </th>
+      <td mat-cell *matCellDef="let row"> {{ row.createdAt | date:'short' }} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="clientName">
+      <th mat-header-cell *matHeaderCellDef> Razón social </th>
+      <td mat-cell *matCellDef="let row"> {{ row.clientName }} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="clientTaxId">
+      <th mat-header-cell *matHeaderCellDef> CUIT </th>
+      <td mat-cell *matCellDef="let row"> {{ row.clientTaxId }} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="productNames">
+      <th mat-header-cell *matHeaderCellDef> Productos </th>
+      <td mat-cell *matCellDef="let row">
+        {{ row.productNames?.join(' | ') }}
+      </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef> Estado </th>
+      <td mat-cell *matCellDef="let row"> {{ row.status }} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="totalAmount">
+      <th mat-header-cell *matHeaderCellDef> Total </th>
+      <td mat-cell *matCellDef="let row"> {{ row.totalAmount | currency:'ARS':'symbol-narrow' }} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef> </th>
+      <td mat-cell *matCellDef="let row">
+        <button mat-button color="primary">Ver</button>
+      </td>
+    </ng-container>
+  
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row        *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+ 
+  

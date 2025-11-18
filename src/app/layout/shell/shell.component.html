@@ -34,6 +34,18 @@
         <mat-icon matListItemIcon>local_shipping</mat-icon>
         <span matListItemTitle>{{ 'nav.pickups' | translate }}</span>
       </a>
+      <a mat-list-item routerLink="/audit" routerLinkActive="active">
+        <mat-icon matListItemIcon>history</mat-icon>
+        <span matListItemTitle>Bitácora</span>
+      </a>
+
+            <!-- En tu ShellComponent template (sidenav) -->
+      <a mat-list-item routerLink="/backup" routerLinkActive="active">
+        <mat-icon matListItemIcon>backup</mat-icon>
+        <span matListItemTitle>Backup</span>
+      </a>
+
+      
       <!-- Si querés restringir por rol, descomenta y usá tu directiva:
       <a mat-list-item routerLink="/pickups" routerLinkActive="active" *appHasRole="['ADMIN','OPERADOR_LOGISTICO','TECNICO']">
         <mat-icon matListItemIcon>local_shipping</mat-icon>

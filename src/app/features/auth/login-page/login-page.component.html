@@ -27,13 +27,24 @@
         <mat-spinner *ngIf="loading()" diameter="18"></mat-spinner>
         <span *ngIf="!loading()">{{ 'login.enter' | translate }}</span>
       </button>
+      <!-- separador opcional -->
+      <div class="divider">
+        <span>o</span>
+      </div>
+      
+      <!-- Aquí Google va a dibujar su botón -->
+      <div id="googleSignInButton"></div>
+      
+
 
       <p class="error" *ngIf="error()">{{ error() }}</p>
+
     </form>
 
     <div class="register-hint">
-      {{ 'login.noAccount' | translate }}
-      <a routerLink="/register">{{ 'login.register' | translate }}</a>.
+      <!-- //{{ 'login.noAccount' | translate }} -->
+      No tenes cuenta? 
+      <a routerLink="/register">Registrate</a>.
     </div>
   </mat-card>
 </div>

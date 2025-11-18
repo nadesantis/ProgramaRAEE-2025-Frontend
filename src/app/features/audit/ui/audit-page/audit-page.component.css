@@ -1,0 +1,9 @@
+
+.audit-header { display:flex; flex-direction:column; gap:12px; margin-bottom:12px; }
+.audit-header h2 { display:flex; align-items:center; gap:8px; margin:0; }
+.filters { display:flex; flex-wrap:wrap; align-items:center; gap:10px; }
+.filters .spacer { flex:1 1 auto; }
+.table-wrapper { background:#fff; border-radius:12px; padding:12px; box-shadow: var(--mat-elevation-2); }
+td .msg { display:inline-block; max-width:420px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.ok { color:#2e7d32; font-weight:600; }
+.fail { color:#c62828; font-weight:600; }

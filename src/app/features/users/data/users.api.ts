@@ -1,3 +1,4 @@
+// src/app/features/users/data/users.api.ts
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
@@ -40,5 +41,9 @@ export class UsersApi {
   changePassword(id: number, body: ChangePasswordRequest): Observable<void> {
     return this.http.post<void>(`${this.base}/${id}/reset-password`, body);
   }
-}
 
+  // NUEVO: match con POST /{id}/unlock del backend
+  unlock(id: number): Observable<void> {
+    return this.http.post<void>(`${this.base}/${id}/unlock`, {});
+  }
+}

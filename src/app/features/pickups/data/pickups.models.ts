@@ -1,6 +1,13 @@
 import { Page } from '../../../shared/models/pagination.model';
 
-export type PickupStatus = 'CREATED'|'APPROVED'|'ASSIGNED'|'IN_PROGRESS'|'CLOSED';
+
+export type PickupStatus =
+  | 'CREATED'
+  | 'PENDING'
+  | 'APPROVED'
+  | 'ASSIGNED'
+  | 'IN_PROGRESS'
+  | 'CLOSED';
 
 export interface PickupOrder {
   id: number;
@@ -9,6 +16,7 @@ export interface PickupOrder {
   status: PickupStatus;
   location?: string | null;
   notes?: string | null;
+  raeeKg?: number | null;        // lo dejamos, es opcional
   requestedAt?: string | null;
   approvedAt?: string | null;
   assignedAt?: string | null;
@@ -16,18 +24,34 @@ export interface PickupOrder {
   closedAt?: string | null;
 }
 
+export interface ClosePickupRequest {
+  closedAt?: string;          // ISO (se envía como string)
+  durationMinutes?: number;
+  devicesCount?: number;
+  notes?: string;
+}
+
+// NUEVO: fila de listado enriquecida
+export interface PickupListRow {
+  id: number;
+  clientName: string;
+  technicianName: string;
+  status: PickupStatus;
+  requestedAt?: string | null;
+  location?: string | null;
+  raeeKg?: number | null;
+}
+
+
+
 export interface CreatePickupRequest {
   clientId: number;
   location?: string | null;
   notes?: string | null;
+  raeeKg?: number | null;          
 }
+export interface AssignPickupRequest { technicianId: number; }
 
-export interface AssignPickupRequest {
-  technicianId: number;
-}
-
-export interface ClosePickupRequest {
-  notes?: string | null;
-}
-
+// Página del listado enriquecido
+export type PickupListPage = Page<PickupListRow>;
 export type PickupOrderPage = Page<PickupOrder>;

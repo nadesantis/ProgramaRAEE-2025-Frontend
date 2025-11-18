@@ -1,29 +1,36 @@
 <div class="page">
   <div class="page-header">
-    <h2>Órdenes</h2>
+    <h2>Órdenes de venta</h2>
 
     <div class="page-actions">
       <mat-form-field appearance="outline" class="field">
-        <mat-label>ID cliente</mat-label>
-        <input
-          matInput
-          type="number"
-          [formControl]="clientId"
-          (keyup.enter)="search()"
-          placeholder="Ej: 2" />
-        <button mat-icon-button matSuffix *ngIf="clientId.value !== null" (click)="clearFilter()" aria-label="Limpiar filtro">
-          <mat-icon>close</mat-icon>
-        </button>
+        <mat-label>Razón social o CUIT</mat-label>
+        <input matInput [formControl]="q" (keyup.enter)="search()" placeholder="Ej: ACME / 30-12345678-9">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="field">
+        <mat-label>Estado</mat-label>
+        <mat-select [formControl]="status">
+          <mat-option value="">(Todos)</mat-option>
+          <mat-option value="PENDING">Pendiente</mat-option>
+          <mat-option value="APPROVED">Aprobado</mat-option>
+          <mat-option value="CLOSED">Cerrada</mat-option>
+        </mat-select>
       </mat-form-field>
 
       <button mat-raised-button color="primary" (click)="search()">
         <mat-icon>search</mat-icon>
-        <span>Buscar</span>
+        Buscar
+      </button>
+
+      <button mat-stroked-button (click)="clearFilters()">
+        <mat-icon>filter_alt_off</mat-icon>
+        Limpiar
       </button>
 
       <button mat-raised-button color="accent" class="hide-sm" (click)="newOrder()" *appHasRole="'ADMIN'">
         <mat-icon>add_shopping_cart</mat-icon>
-        <span>Nueva orden</span>
+        Nueva orden
       </button>
     </div>
   </div>
@@ -31,26 +38,16 @@
   <mat-card class="card">
     <div class="table-scroll">
       <app-table
-      [columns]="columns"
-      [data]="data"
-      [total]="total"
-      [pageIndex]="pageIndex"
-      [pageSize]="pageSize"
-      [loading]="loading()"
-      [actions]="['approve']"
-      (paginate)="onPaginate($event)"
-      (action)="onAction($event)">
-    </app-table>
-    
-    
-    
-    
-    
-    
+        [columns]="columns"
+        [data]="data"
+        [total]="total"
+        [pageIndex]="pageIndex"
+        [pageSize]="pageSize"
+        [loading]="loading()"
+        [actions]="tableActions"
+        (paginate)="onPaginate($event)"
+        (action)="onAction($event)">
+      </app-table>
     </div>
   </mat-card>
-
-  <button mat-fab color="accent" class="fab only-sm" aria-label="Nueva orden" (click)="newOrder()" *appHasRole="'ADMIN'">
-    <mat-icon>add</mat-icon>
-  </button>
 </div>

@@ -3,7 +3,11 @@ export interface LoginRequest {
   password: string;
 }
 export interface AuthResponse {
-  accessToken: string;       
+  token: string;  
+  id: number;
+  name: string;
+  email: string;
+  role: string;     
 }
 
   export interface JwtPayload {

@@ -42,6 +42,18 @@ export const routes: Routes = [
         loadChildren: () =>
           import('./features/pickups/pickups.routes').then(m => m.PICKUPS_ROUTES)
       },
+      {
+        path: 'audit',
+        loadChildren: () =>
+          import('./features/audit/audit.routes').then(m => m.AUDIT_ROUTES)
+      },
+      {
+        path: 'backup',
+        loadChildren: () =>
+          import('./features/backup/backup.routes').then(m => m.BACKUP_ROUTES)
+      },
+
+
       
       
     ]

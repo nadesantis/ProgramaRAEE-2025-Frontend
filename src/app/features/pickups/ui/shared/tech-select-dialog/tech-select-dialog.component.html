@@ -1,0 +1,31 @@
+<h2 mat-dialog-title>Elegir técnico</h2>
+
+<mat-dialog-content>
+  <!-- Buscador -->
+  <mat-form-field appearance="outline" class="w-full">
+    <mat-label>Buscar</mat-label>
+    <input matInput [formControl]="search" placeholder="Nombre o email" />
+  </mat-form-field>
+
+  <!-- Lista -->
+  <ng-container *ngIf="!loading; else loadingTpl">
+    <mat-selection-list [multiple]="false" (selectionChange)="pick($event.options[0]?.value)">
+      <mat-list-option *ngFor="let t of view" [value]="t.id">
+        <div class="flex flex-col">
+          <span class="font-medium">{{ t.name }}</span>
+          <small class="text-gray-600">{{ t.email }}</small>
+        </div>
+      </mat-list-option>
+    </mat-selection-list>
+
+    <div *ngIf="view.length === 0" class="py-3 text-gray-600">No hay resultados.</div>
+  </ng-container>
+
+  <ng-template #loadingTpl>
+    <div class="py-3 text-gray-600">Cargando técnicos...</div>
+  </ng-template>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="close()">Cancelar</button>
+</mat-dialog-actions>

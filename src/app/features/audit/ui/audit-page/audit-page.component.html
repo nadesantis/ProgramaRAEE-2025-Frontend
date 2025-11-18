@@ -1,0 +1,74 @@
+<div class="audit-header">
+    <h2><mat-icon>history</mat-icon> Bitácora</h2>
+  
+    <div class="filters">
+      <mat-form-field appearance="outline">
+        <mat-label>Usuario</mat-label>
+        <input matInput placeholder="email o parte" [formControl]="form.controls.user">
+      </mat-form-field>
+  
+      <!-- mantenemos el filtro por acción -->
+      <mat-form-field appearance="outline">
+        <mat-label>Acción</mat-label>
+        <mat-select [formControl]="form.controls.action">
+          <mat-option value="">(todas)</mat-option>
+          <mat-option *ngFor="let a of actions" [value]="a">{{ a }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+  
+      <button mat-flat-button color="primary" (click)="search()">
+        <mat-icon>search</mat-icon> Buscar
+      </button>
+  
+      <button mat-stroked-button (click)="clear()">
+        <mat-icon>backspace</mat-icon> Limpiar
+      </button>
+  
+      <span class="spacer"></span>
+    </div>
+  </div>
+  
+  <div class="table-wrapper" [class.loading]="loading()">
+    <table mat-table [dataSource]="data()">
+  
+      <!-- Fecha -->
+      <ng-container matColumnDef="whenAt">
+        <th mat-header-cell *matHeaderCellDef>Fecha</th>
+        <td mat-cell *matCellDef="let r">{{ r.whenAt | date:'yyyy-MM-dd HH:mm:ss' }}</td>
+      </ng-container>
+  
+      <!-- Usuario -->
+      <ng-container matColumnDef="userEmail">
+        <th mat-header-cell *matHeaderCellDef>Usuario</th>
+        <td mat-cell *matCellDef="let r">{{ r.userEmail || '—' }}</td>
+      </ng-container>
+  
+      <!-- Resultado -->
+      <ng-container matColumnDef="result">
+        <th mat-header-cell *matHeaderCellDef>Resultado</th>
+        <td mat-cell *matCellDef="let r">
+          <span [class.ok]="r.success" [class.fail]="!r.success">{{ r.success ? 'OK' : 'FAIL' }}</span>
+        </td>
+      </ng-container>
+  
+      <!-- Mensaje (con tooltip) -->
+      <ng-container matColumnDef="message">
+        <th mat-header-cell *matHeaderCellDef>Mensaje</th>
+        <td mat-cell *matCellDef="let r">
+          <span class="msg" [matTooltip]="r.message">{{ r.message || '—' }}</span>
+        </td>
+      </ng-container>
+  
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let r; columns: displayedColumns;"></tr>
+    </table>
+  
+    <mat-paginator
+      [length]="total()"
+      [pageIndex]="pageIndex()"
+      [pageSize]="pageSize()"
+      [pageSizeOptions]="[5,10,20,50]"
+      (page)="onPage($event)">
+    </mat-paginator>
+  </div>
+  
